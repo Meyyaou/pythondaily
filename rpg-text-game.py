@@ -50,7 +50,15 @@ class Perso():
     
     def check_inventory(inventory):
         pass
+
+class Poet():
     
+class Knight():
+    
+class Sorcerer():
+class Enemy():
+class NPC():
+
 class Place():
     def __init__(self, name, enemy, treasure, quest):
         self.name=name
