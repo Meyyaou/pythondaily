@@ -212,10 +212,8 @@ while True:
     print("here you can be anything you want, explore various places, discover new treasures, make potions and live the most vivacious adventures of all time")
     print("first let's see who you are: ")
     choice=input("write 1 to check your character card, 2 to quit the game")
-    if choice==1:
-        print(person)
-        print("hm we've got an interesting character here...")
-    elif choice==2:
+    
+    if choice==2:
         print("oh how sad, do you really want to leave us and go?")
         choice1=input("think wise, before we break into your computer :)\n yes or no?")
         if choice1.lower()=="yes":
@@ -224,6 +222,11 @@ while True:
             print("you really dont know what you want.. pff goodbye anyway")
         elif:
             print("what?")
+    elif choice==1:
+        print(person)
+        print("hm we've got an interesting character here...")
     else:
         print("i dont get it?")
+    print("now that you know who you are, you are given a quest to complete.")
+    print("")
 #person.check_inventory(person.inventory)
