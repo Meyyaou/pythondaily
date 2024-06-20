@@ -177,27 +177,53 @@ class Place():
         #return f"You are currently in {self.name}\nThe quest here is: {self.quest}\nTreasure: {self.treasure if self.treasure else 'None'}"
 class Game():
     
-    def __init__(self, starting_point=None, ending_point=None):
+    def __init__(self, file="save.json"):
         print("New game")
-        self.starting_point=starting_point
-        self.ending_point=ending_point
+        self.file=file
+        self.load_game()
         
     def __str__():
         pass
 
     def load_game(self):
-        pass
+        try:
+            with open(self.file, "r")as f:
+                perso_dict=json.load(f)
+                self.perso=Perso(**perso_dict)
+        except FileNotFoundError:
+            pass
     
     def save_game(self):
-        pass
+        with open(self.file, 'w') as f:
+            json.dump(self.perso.__dict__,f)
     
     
-#game=Game()
-name=None
-role=None
-health= 100
-strength=10
-inventory=None
-person=Perso(name, health, inventory, role)
-print(person)
+game=Game()
+if not game.perso:
+    name=None
+    role=None
+    health= 100
+    strength=10
+    inventory=None
+    person=Perso(name, health, inventory, role)
+
+while True:
+    print("welcome to our world...")
+    print("here you can be anything you want, explore various places, discover new treasures, make potions and live the most vivacious adventures of all time")
+    print("first let's see who you are: ")
+    choice=input("write 1 to check your character card, 2 to quit the game")
+    if choice==1:
+        print(person)
+        print("hm we've got an interesting character here...")
+    elif choice==2:
+        print("oh how sad, do you really want to leave us and go?")
+        choice1=input("think wise, before we break into your computer :)\n yes or no?")
+        if choice1.lower()=="yes":
+            print("you suck. bye.")
+        if choice1.lower()=="no":
+            print("you really dont know what you want.. pff goodbye anyway")
+        elif:
+            print("what?")
+    else:
+        print("i dont get it?")
 #person.check_inventory(person.inventory)
