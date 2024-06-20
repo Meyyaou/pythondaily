@@ -2,48 +2,58 @@
 # Write Python 3 code in this online editor and run it.
 class Perso():
     
-    def __init__(self, name=None, health=100, strength=10, inventory=None, role=None):
+    def __init__(self, name=None, health=100, inventory=None, role=None):
         print("hello new gamer!")
         if name is None:
             name = input("choose your name: ")
         self.name=name
-        print("your name is :", self.name)
+        #print("your name is :", self.name)
         if role is None:
             role=self.create_perso()
         self.role=role 
-        print("you chose to be :", self.role.__class__.__name__)
+        #print("you chose to be :", self.role.__class__.__name__)
         self.health=health
-        self.strength=strength
         self.inventory=inventory
-        print("your health is initialized to", self.health, "strength to", self.strength)
-        self.check_inventory(self.inventory)
+        #print("your health is initialized to", self.health)
+        #self.check_inventory(self.inventory)
         print("are you ready to play? let's start...")
         
-    
+     #might add an icon ascii with p/k/s for role at right
     def __str__(self):
-        #might add an icon ascii with p/k/s for role at right
         result = f"""
-        {"#"*40}
+        {'#' * 40}
         # Your name: {self.name}
         # You are: {self.role.__class__.__name__}
         # You have: {self.health} points of health
-        # You have: {self.strength} points of strength
         # You have: {', '.join(self.inventory) if self.inventory else 'nothing'} in your inventory
-        {"#"*40}
         """
+    
+        if isinstance(self.role, Poet):
+            result += f"# Your words are: {', '.join(self.role.words)}\n"
+    
+        if isinstance(self.role, Knight):
+            result += f"# Your power is: {self.role.power}\n"
+            result += f"{' '*8}# You have: {self.role.strength} points of strength\n"
+            result += f"{' '*8}# Your attacks are: "
+            result += ', '.join([a['attack'] for a in self.role.attack]) + "\n"
+    
+        if isinstance(self.role, Sorcerer):
+            result += f"# Your power is: {self.role.power}\n"
+        result += f"{' '*8}{'#' * 40}"
+
         return result
     
     def create_perso(self):
         while True:
             role= input("choose the role you want to play during this adventure: poet, sorcerer or knight? ")
-            if role=="poet":
+            if role.lower()=="poet":
                 return Poet(["sun", "life", "little", "good"])
-            elif role=="knight":
-                return Knight({{"key": 10, "attack": "torture"}, {"key": 20, "attack": "knife drop"}})
-            elif role=="sorcerer":
+            elif role.lower()=="knight":
+                return Knight([{"points": 10, "attack": "torture"}, {"points": 20, "attack": "knife drop"}])
+            elif role.lower()=="sorcerer":
                 return Sorcerer()
             else:
-                print("there is no place for a", role, "in our world. come back in another garment", self.name)
+                print("there is no place for a", role, "in our world. come back in another garment", self.name, "\n")
             
     def explore(place):
         pass
@@ -68,7 +78,7 @@ class Poet(Perso):
 
     def __init__(self, words):
         self.words=words
-        print("you chose to be a poet")
+        #print("you chose to be a poet")
     
     def write(self, words):
         print("you have these words:", self.words, "\ and you have to write the best louange for the king or else you die")
@@ -81,7 +91,7 @@ class Poet(Perso):
         if poem is None:
             print("you have not written anything")
         else:
-            val=random(1, 100)
+            val=random.randint(1, 100)
             if val>50:
                 print("you got the chance, the king loved it")
                 print("you're fine, you're now called Jaskier and you sing for the king")
@@ -96,7 +106,7 @@ class Knight(Perso):
         self.strength= 10
         self.attack=attack
         self.power=10
-        print("you chose to be a knight")
+        #print("you chose to be a knight")
         
         
     def combat(self, perso2):
@@ -121,12 +131,12 @@ class Knight(Perso):
                 print("you lose ", perso2.power, " health points")
                 print("and your enemy has now ", perso2.power, "power points")
                 
-        if perso2.health==0:
+        if perso2.health<=0:
             print("you won !")
             print("the quest you had to finish is now done")
             print("you finish your game with :", self.health, "health points\n", self.power, "power points\nand", self.strength," strength points")
             
-        if self.health==0:
+        if self.health<=0:
             print("you lost...")
             print("come back next time when you're stronger!")
         
@@ -135,11 +145,11 @@ class Sorcerer(Perso):
     ingredient=["fire flower", "dragon tooth", "teary cloud", "ancient wooden fragment"]
     def __init__(self):
         self.power=10
-        print("you chose to be a sorcerer")
+        #print("you chose to be a sorcerer")
         
     def find_ingredients(self):
-        #found=ingredient[random]
-        #print("you found an ingredient: ", ingredient[random])
+        found=random.choice(ingredient)
+        print("you found an ingredient: ",found)
         ramasse=input("do you want to take it?: 0)yes 1)no")
         if ramasse==0:
             #self.inventory.append(found)
@@ -164,7 +174,7 @@ class Place():
         
         if self.treasure is not None:
             print("the treasure in here is:", self.treasure)
-        
+        #return f"You are currently in {self.name}\nThe quest here is: {self.quest}\nTreasure: {self.treasure if self.treasure else 'None'}"
 class Game():
     
     def __init__(self, starting_point=None, ending_point=None):
@@ -188,6 +198,6 @@ role=None
 health= 100
 strength=10
 inventory=None
-person=Perso(name, health, strength, inventory, role)
+person=Perso(name, health, inventory, role)
 print(person)
 #person.check_inventory(person.inventory)
