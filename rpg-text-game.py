@@ -77,6 +77,7 @@ class Poet(Perso):
     poem=""
 
     def __init__(self, words):
+        #super().__init__(name=None, health=100, inventory=None, role=self)
         self.words=words
         #print("you chose to be a poet")
     
@@ -103,6 +104,7 @@ class Poet(Perso):
                 
 class Knight(Perso):
     def __init__(self, attack):
+        #super().__init__(name=None, health=100, inventory=None, role=self)
         self.strength= 10
         self.attack=attack
         self.power=10
@@ -144,6 +146,7 @@ class Knight(Perso):
 class Sorcerer(Perso): 
     ingredient=["fire flower", "dragon tooth", "teary cloud", "ancient wooden fragment"]
     def __init__(self):
+       # super().__init__(name=None, health=100, inventory=None, role=self)
         self.power=10
         #print("you chose to be a sorcerer")
         
@@ -235,12 +238,13 @@ while playing:
         print("hm we've got an interesting character here...\n")
         print("now that you know who you are, you are given a quest to complete.")
         if person.role.__class__.__name__ == 'Knight':
-            print(f"Your quest as a {person.role} is to explore the world, to find an enemy and to combat it.")
+            print("Your quest as a knight is to explore the world, to find an enemy and to combat it.")
+            print()
         elif person.role.__class__.__name__ == 'Poet':
-            print(f"Your quest as a {person.role} is to explore the world, to collect words and create the most beautiful poem of the universe")
+            print(f"Your quest as a poet is to explore the world, to collect words and create the most beautiful poem of the universe")
         elif person.role.__class__.__name__ == 'Sorcerer':
-            print(f"Your quest as a {person.role} is to explore the world, to discover new ingredients and make the world's most dangerous potion")
-
+            print(f"Your quest as a sorcerer is to explore the world, to discover new ingredients and make the world's most dangerous potion")
+        
     else:
         print("try again\n")
     
