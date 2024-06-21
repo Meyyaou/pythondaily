@@ -196,10 +196,11 @@ class Game():
     def save_game(self):
         with open(self.file, 'w') as f:
             json.dump(self.perso.__dict__,f)
-    
-    
+        
 game=Game()
-if not game.perso:
+playing=True
+person=None
+if person is None :
     name=None
     role=None
     health= 100
@@ -207,26 +208,34 @@ if not game.perso:
     inventory=None
     person=Perso(name, health, inventory, role)
 
-while True:
+while playing:
     print("welcome to our world...")
+    print("*"*70)
     print("here you can be anything you want, explore various places, discover new treasures, make potions and live the most vivacious adventures of all time")
+    print("*"*70)
     print("first let's see who you are: ")
-    choice=input("write 1 to check your character card, 2 to quit the game")
+    choice=input("write\n1 to check your character card\n2 to quit the game")
     
-    if choice==2:
+    if choice == "2":
         print("oh how sad, do you really want to leave us and go?")
-        choice1=input("think wise, before we break into your computer :)\n yes or no?")
+        choice1=input("think wise, before we break into your computer :)\n yes \nor \nno?")
         if choice1.lower()=="yes":
             print("you suck. bye.")
-        if choice1.lower()=="no":
+            playing=False
+        elif choice1.lower()=="no":
             print("you really dont know what you want.. pff goodbye anyway")
-        elif:
+            playing=False
+        else:
             print("what?")
-    elif choice==1:
+            print("sorry i take this as a yes :)")
+            playing=False
+    
+    if choice == "1":
         print(person)
-        print("hm we've got an interesting character here...")
+        print("hm we've got an interesting character here...\n")
+        print("now that you know who you are, you are given a quest to complete.")
+        
     else:
-        print("i dont get it?")
-    print("now that you know who you are, you are given a quest to complete.")
-    print("")
+        print("try again\n")
+    
 #person.check_inventory(person.inventory)
