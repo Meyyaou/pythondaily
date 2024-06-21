@@ -234,7 +234,13 @@ while playing:
         print(person)
         print("hm we've got an interesting character here...\n")
         print("now that you know who you are, you are given a quest to complete.")
-        print("your quest as a", person.role, "is ")
+        if person.role.__class__.__name__ == 'Knight':
+            print(f"Your quest as a {person.role} is to explore the world, to find an enemy and to combat it.")
+        elif person.role.__class__.__name__ == 'Poet':
+            print(f"Your quest as a {person.role} is to explore the world, to collect words and create the most beautiful poem of the universe")
+        elif person.role.__class__.__name__ == 'Sorcerer':
+            print(f"Your quest as a {person.role} is to explore the world, to discover new ingredients and make the world's most dangerous potion")
+
     else:
         print("try again\n")
     
