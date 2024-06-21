@@ -230,12 +230,14 @@ while playing:
             print("sorry i take this as a yes :)")
             playing=False
     
-    if choice == "1":
+    elif choice == "1":
         print(person)
         print("hm we've got an interesting character here...\n")
         print("now that you know who you are, you are given a quest to complete.")
-        
+        print("your quest as a", person.role, "is ")
     else:
         print("try again\n")
+    
+    
     
 #person.check_inventory(person.inventory)
