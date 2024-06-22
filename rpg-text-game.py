@@ -147,37 +147,34 @@ class Knight(Perso):
     def find_enemy(self,perso2):
         pass
     
-    def combat(self, perso2):
-        while self.health>0 or perso2.health>0:
-            attacker=max(self.strength, perso2.strength)
-            if attacker==self.strength:
+    def combat(self, enemy):
+        while self.health > 0 and enemy.health > 0:
+            attacker = max(self.strength, enemy.strength)
+            if attacker == self.strength:
                 print("you can attack the enemy with", self.power, "power")
-                print("choose the attack to make him lose: 1) for", self.attack[0],"\n2) for", self.attack[1],"\nor 3) for", self.attack[2])
-                attack_type=input("you chose: ")
-                print(attack_type.Upper())
-                perso2.health-=self.power
-                #self.strength+=self.attack[attack_type][attack]
-                #self.power+=self.strength and add a lil calcul TODO
+                print("choose the attack to make him lose: 1) for", self.attack[0]["attack"], "\n2) for", self.attack[1]["attack"])
+                attack_type = input("you chose: ")
+                if attack_type == "1":
+                    enemy.health -= self.attack[0]["points"]
+                elif attack_type == "2":
+                    enemy.health -= self.attack[1]["points"]
                 print("you made him lose:", self.power)
-                #print("and you gained", self.attack[attack_type][attack], "power points")
-                #perso2.health-=self.attack[attack_type][attack]
-                print("your enemy has now decided to attack back! beware")
-            if attacker==perso2.strength:
+                #print("your enemy has now decided to attack back! beware")
+            else:
+                #TODO choos erandom une attack !!
                 print("he attacks you using a deadly attack!")
-                self.health-=perso2.power
-                perso2.power+=perso2.strength
-                print("you lose ", perso2.power, " health points")
-                print("and your enemy has now ", perso2.power, "power points")
-                
-        if perso2.health<=0:
+                self.health -= enemy.power
+                print("you lose ", enemy.power, " health points")
+    
+        if enemy.health <= 0:
             print("you won !")
             print("the quest you had to finish is now done")
-            print("you finish your game with :", self.health, "health points\n", self.power, "power points\nand", self.strength," strength points")
-            
-        if self.health<=0:
+            print("you finish your game with :", self.health, "health points\n", self.power, "power points\nand", self.strength, " strength points")
+    
+        if self.health <= 0:
             print("you lost...")
             print("come back next time when you're stronger!")
-        
+
    
 class Sorcerer(Perso): 
     #reaaalyy need to gérer le sorcerer ! TODO
@@ -281,7 +278,7 @@ while playing:
             print("Your quest as a knight is to explore the world, to find an enemy and to combat it.")
             print("your quest starts now")
             place=Place("Exola", "Enemio Enim", None, "COMBAT")
-            enemy=Perso("Enemio Enim", 100, {"weapon":"Katana"}, Knight("Katana", 20, 20))
+            enemy=Knight("Katana", 20, 20, "Enemio Enim", 100, {"weapon":"Katana"}, )
             print(place)
             kc1=input("write\n1 to explore Exola\n2 to check your inventory\n3 to find your enemy\n4 to quit the game")
             if kc1=="4":
