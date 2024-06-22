@@ -1,4 +1,3 @@
-# Online Python compiler (interpreter) to run Python online.
 # Write Python 3 code in this online editor and run it.
 class Perso():
     
@@ -137,7 +136,9 @@ class Knight(Perso):
         self.power=10
         #print("you chose to be a knight")
         
-        
+    def find_enemy(self,perso2):
+        pass
+    
     def combat(self, perso2):
         while self.health>0 or perso2.health>0:
             attacker=max(self.strength, perso2.strength)
@@ -240,6 +241,7 @@ if person is None :
     person=Perso(name, health, inventory, role)
 
 while playing:
+    #TODO find a way to stop from relooping each time before ending game?
     print("welcome to our world...")
     print("*"*70)
     print("here you can be anything you want, explore various places, discover new treasures, make potions and live the most vivacious adventures of all time")
@@ -269,14 +271,21 @@ while playing:
             print("Your quest as a knight is to explore the world, to find an enemy and to combat it.")
             print("your quest starts now")
             place=Place("Exola", "Enemio Enim", None, "COMBAT")
+            enemy=Perso("Enemio Enim", 100, {"weapon":"Katana"}, Knight("Katana"))
             print(place)
-            kc1=input("write\n1 to explore Exola\n2 to check your inventory\n3 to quit the game")
-            if kc1=="3":
+            kc1=input("write\n1 to explore Exola\n2 to check your inventory\n3 to find your enemy\n4 to quit the game")
+            if kc1=="4":
                 playing=False
             elif kc1=="2":
                 person.check_inventory(person.inventory)
             elif kc1=="1":
                 person.explore(place)
+            elif kc1=="3":
+                print("you found your biggest enemy", enemy.name.upper(), "...")
+                #add more complexity here TODO
+                #might even add a method of finding the enemy etc TODO
+                print("he was waiting for you, to finally kill you...")
+                person.combat(enemy)
             else:
                 print("try again!")
         elif person.role.__class__.__name__ == 'Poet':
