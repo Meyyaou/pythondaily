@@ -1,22 +1,24 @@
 # Write Python 3 code in this online editor and run it.
+import random
+
 class Perso:
     
-    def __init__(self, name=None, health=100, inventory=None, role=None):
-        print("hello new gamer!")
-        if name is None:
-            name = input("choose your name: ")
-        self.name=name
-        #print("your name is :", self.name)
+    def __init__(self, name=None, health=100, inventory=None, role=None, silent=False):
+        if not silent:
+            print("hello new gamer!")
+            if name is None:
+                name = input("choose your name: ")
+        self.name = name
+        self.health = health
+        if inventory is None:
+            inventory = {}
+        self.inventory = inventory
         if role is None:
-            role=self.create_perso()
-        self.role=role 
-        #print("you chose to be :", self.role.__class__.__name__)
-        self.health=health
-        self.inventory=inventory
-        #print("your health is initialized to", self.health)
-        #self.check_inventory(self.inventory)
-        print("are you ready to play? let's start...")
-        
+            role = self.create_perso()
+        self.role = role
+        if not silent:
+            print("are you ready to play? let's start...")
+
      #might add an icon ascii with p/k/s for role at right
     def __str__(self):
         result = f"""
@@ -48,7 +50,7 @@ class Perso:
             if role.lower()=="poet":
                 return Poet(["sun", "life", "little", "good"])
             elif role.lower()=="knight":
-                return Knight([{"points": 10, "attack": "torture"}, {"points": 20, "attack": "knife drop"}])
+                return Knight([{"points": 10, "attack": "torture"}, {"points": 20, "attack": "knife drop"}], 10, 10)
             elif role.lower()=="sorcerer":
                 return Sorcerer()
             else:
@@ -78,10 +80,10 @@ class Perso:
                 print("try again !")
         
         
-        elif place=="test2":
+        elif place=="Belova":#todo implement this
             pass
     
-        elif place=="test3":
+        elif place=="Mordor":#todo implement this
             pass
         
     def go_to(place):
@@ -96,31 +98,36 @@ class Perso:
     def check_inventory(self,inventory):
         if self.inventory is not None:
             print("you have: ", str(self.inventory), "in your inventory")
+        # NEDD TO FIX THIS TODO elif self.inventory  {}:
         else:
             print("Your inventory is empty.")
 
 class Poet(Perso):
     poem=""
 
-    def __init__(self, words):
-        #super().__init__(name=None, health=100, inventory=None, role=self)
+    def __init__(self, words, name=None, health=100, inventory=None):
+        super().__init__(name, health, inventory, role=self, silent=True)
         self.words=words
         #print("you chose to be a poet")
     
+    def search_for_words(self, place):
+        print("you found no words")
+
     def write(self, words):
+        #todo add more complexity for this words need to be from words [] or else not
         print("you have these words:", self.words, "\ and you have to write the best louange for the king or else you die")
         print("think wise:")
         poem=input("")
         
         return poem
     
-    def evaluation_poem(self, poem):
+    def evaluate_poem(self, poem):
         if poem is None:
             print("you have not written anything")
         else:
             val=random.randint(1, 100)
             if val>50:
-                print("you got the chance, the king loved it")
+                print("by chance, the king loved it")
                 print("you're fine, you're now called Jaskier and you sing for the king")
                 print("your quest is finished and you'll live a happy romantic life")
             elif val<50:
@@ -129,8 +136,8 @@ class Poet(Perso):
                 print("you'll write mourning poems about death in the lambs")
                 
 class Knight(Perso):
-    def __init__(self, attack):
-        #super().__init__(name=None, health=100, inventory=None, role=self)
+    def __init__(self, attack, strength, power, name=None, health=100, inventory=None):
+        super().__init__(name, health, inventory, role=self, silent=True)
         self.strength= 10
         self.attack=attack
         self.power=10
@@ -172,18 +179,20 @@ class Knight(Perso):
         
    
 class Sorcerer(Perso): 
-    ingredient=["fire flower", "dragon tooth", "teary cloud", "ancient wooden fragment"]
-    def __init__(self):
-       # super().__init__(name=None, health=100, inventory=None, role=self)
+    #reaaalyy need to gérer le sorcerer ! TODO
+    
+    def __init__(self, name=None, health=100, inventory=None):
+        super().__init__(name, health, inventory, role=self, silent=True)
         self.power=10
         #print("you chose to be a sorcerer")
-        
+    
     def find_ingredients(self):
+        ingredient=["fire flower", "dragon tooth", "teary cloud", "ancient wooden fragment"]
         found=random.choice(ingredient)
         print("you found an ingredient: ",found)
         ramasse=input("do you want to take it?: 0)yes 1)no")
         if ramasse==0:
-            #self.inventory.append(found)
+            self.inventory["ingredient"]=found
             print("you added", found, "to your inventory")
             
     def make_new_potion(self, inventory):
@@ -271,7 +280,7 @@ while playing:
             print("Your quest as a knight is to explore the world, to find an enemy and to combat it.")
             print("your quest starts now")
             place=Place("Exola", "Enemio Enim", None, "COMBAT")
-            enemy=Perso("Enemio Enim", 100, {"weapon":"Katana"}, Knight("Katana"))
+            enemy=Perso("Enemio Enim", 100, {"weapon":"Katana"}, Knight("Katana", 20, 20))
             print(place)
             kc1=input("write\n1 to explore Exola\n2 to check your inventory\n3 to find your enemy\n4 to quit the game")
             if kc1=="4":
@@ -290,9 +299,55 @@ while playing:
                 print("try again!")
         elif person.role.__class__.__name__ == 'Poet':
             print(f"Your quest as a poet is to explore the world, to collect words and create the most beautiful poem of the universe")
+            place=Place("Belova", None, "Love", "POEM")
+            print(place)
+            pc1= input("now sweet little poet, what do you want to do ? write\n1 to explore Belova\n2 to search for words\n3 to check your inventory\n4 to quit the game")
+            if pc1=="4":
+                playing= False
+            elif pc1=="1":
+                person.explore(place)
+            elif pc1=="2":
+                person.role.search_for_words(place)
+                pc11=input("do you want to write a poem?\n1 to start\n2to die because of your inexistant muse ")
+                if pc11=="1":
+                    writing=person.role.write(person.role.words)
+                    print("the king found your poem and wants you to play it for him. NOW")
+                    pc112=input("declaim or die ")
+                    if pc112=="declaim":
+                        print("the king listens intensively...")
+                        if writing is not None:
+                            person.role.evaluate_poem(writing)
+                    elif pc112=="die":
+                        print("Adieu l'ami")
+                        playing=False
+                elif pc11=="2":
+                    print("you died miserably...")
+                    print("poor little tortured poet")
+                    playing=False
+                else:
+                    print("come again.-no that's what she said are tolerated")
+            elif pc1=="3":
+                person.check_inventory(person.inventory)
+            else:
+                print("hm i don't think i get it")
         elif person.role.__class__.__name__ == 'Sorcerer':
             print(f"Your quest as a sorcerer is to explore the world, to discover new ingredients and make the world's most dangerous potion")
-        
+            place=Place("Mordor", None, "Infinity Stone", "MAGIC")
+            print(place)
+            sc1=input("oh great sorcerer ! what would enchante your mind today?\n1 to explore Mordor\n2 to search for the missing ingredients for your potion\n3 to create a new secret potion\n4 to check your inventory\n 5 or to quit game")
+            if sc1=="5":
+                print("pouf, he disappeared")
+                playing=False
+            elif sc1=="1":
+                person.role.explore(place)
+            elif sc1=="2":
+                person.role.find_ingredients()
+            elif sc1=="3":
+                person.role.make_new_potion(person.inventory)
+            elif sc1=="4":
+                person.check_inventory(person.inventory)
+            else:
+                print("huh?")
     else:
         print("try again\n")
     
