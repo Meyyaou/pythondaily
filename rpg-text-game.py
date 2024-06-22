@@ -111,6 +111,7 @@ class Poet(Perso):
         #print("you chose to be a poet")
     
     def search_for_words(self, place):
+        #TDO addd more complexity here too
         print("you found no words")
 
     def write(self, words):
