@@ -1,5 +1,5 @@
 # Write Python 3 code in this online editor and run it.
-class Perso():
+class Perso:
     
     def __init__(self, name=None, health=100, inventory=None, role=None):
         print("hello new gamer!")
@@ -285,7 +285,7 @@ while playing:
                 #add more complexity here TODO
                 #might even add a method of finding the enemy etc TODO
                 print("he was waiting for you, to finally kill you...")
-                person.combat(enemy)
+                person.role.combat(enemy)
             else:
                 print("try again!")
         elif person.role.__class__.__name__ == 'Poet':
