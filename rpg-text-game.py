@@ -55,9 +55,36 @@ class Perso():
             else:
                 print("there is no place for a", role, "in our world. come back in another garment", self.name, "\n")
             
-    def explore(place):
-        pass
+    def explore(self, place):
+        if place.name == "Exola":
+            print("you're exploring Exola, discovering various places from this kingdom, there is an ancient shop that sells weapons for old soldiers, a flower boutique and a farmer's depot.")
+            kc11=input("write\n 1 if you wanna stop by the antique shop to get yourself the greatest weapon\n 2 if you wanna get romantic and buy a flower for your beloved princess\n or 3 if your stomach is gurling")
+            if kc11=="1":
+                print("you got yourself a nice new knife")
+                #add more complexity TODO
+                person.inventory["weapon"]="knife"
+                print("knife added to your inventory")
+            elif kc11=="2":
+                print("you got for your lover a smelly petunia flower")
+                #add more complexity TODO
+                person.inventory["extra"]="petunia flower"
+                print("petunia flower added to your inventory")
+            elif kc11=="3":
+                print("you bought some veggies and some fishes")
+                #add more complexity TODO
+                person.inventory["food"]="veggies"
+                person.inventory["food2"]="fishes"
+                print("veggies and fishes added to your inventory")
+            else:
+                print("try again !")
+        
+        
+        elif place=="test2":
+            pass
     
+        elif place=="test3":
+            pass
+        
     def go_to(place):
         pass
     
@@ -165,19 +192,20 @@ class Enemy():
 class NPC():
     pass
 class Place():
-    def __init__(self, name, enemy, treasure, quest):
+    def __init__(self, name=None, enemy=None, treasure=None, quest=None):
         self.name=name
         self.enemy=enemy
         self.treasure=treasure
         self.quest=quest
         
     def __str__(self):
-        print("you are currently in", self.name)
+        return f"You are currently in {self.name}\nThe quest here is: {self.quest}\nTreasure: {self.treasure if self.treasure else 'No treasure'}"
+        """ print("you are currently in", self.name)
         print("the quest in here is:", self.quest)
         
         if self.treasure is not None:
-            print("the treasure in here is:", self.treasure)
-        #return f"You are currently in {self.name}\nThe quest here is: {self.quest}\nTreasure: {self.treasure if self.treasure else 'None'}"
+            print("the treasure in here is:", self.treasure)"""
+        
 class Game():
     
     def __init__(self, file="save.json"):
@@ -208,7 +236,7 @@ if person is None :
     role=None
     health= 100
     strength=10
-    inventory=None
+    inventory={}
     person=Perso(name, health, inventory, role)
 
 while playing:
@@ -239,7 +267,18 @@ while playing:
         print("now that you know who you are, you are given a quest to complete.")
         if person.role.__class__.__name__ == 'Knight':
             print("Your quest as a knight is to explore the world, to find an enemy and to combat it.")
-            print()
+            print("your quest starts now")
+            place=Place("Exola", "Enemio Enim", None, "COMBAT")
+            print(place)
+            kc1=input("write\n1 to explore Exola\n2 to check your inventory\n3 to quit the game")
+            if kc1=="3":
+                playing=False
+            elif kc1=="2":
+                person.check_inventory(person.inventory)
+            elif kc1=="1":
+                person.explore(place)
+            else:
+                print("try again!")
         elif person.role.__class__.__name__ == 'Poet':
             print(f"Your quest as a poet is to explore the world, to collect words and create the most beautiful poem of the universe")
         elif person.role.__class__.__name__ == 'Sorcerer':
@@ -250,4 +289,3 @@ while playing:
     
     
     
-#person.check_inventory(person.inventory)
