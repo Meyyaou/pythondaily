@@ -57,34 +57,61 @@ class Perso:
                 print("there is no place for a", role, "in our world. come back in another garment", self.name, "\n")
             
     def explore(self, place):
-        if place.name == "Exola":
-            print("you're exploring Exola, discovering various places from this kingdom, there is an ancient shop that sells weapons for old soldiers, a flower boutique and a farmer's depot.")
-            kc11=input("press\n 1 if you wanna stop by the antique shop to get yourself the greatest weapon\n 2 if you wanna get romantic and buy a flower for your beloved princess\n or 3 if your stomach is gurling")
-            if kc11=="1":
-                print("you got yourself a nice new knife")
-                #add more complexity TODO
-                person.inventory["weapon"]="knife"
-                print("knife added to your inventory")
-            elif kc11=="2":
-                print("you got for your lover a smelly petunia flower")
-                #add more complexity TODO
-                person.inventory["extra"]="petunia flower"
-                print("petunia flower added to your inventory")
-            elif kc11=="3":
-                print("you bought some veggies and some fishes")
-                #add more complexity TODO
-                person.inventory["food"]="veggies"
-                person.inventory["food2"]="fishes"
-                print("veggies and fishes added to your inventory")
+        if place.name=="Exola":
+            print("You are exploring Exola, a vibrant kingdom with various interesting spots: an antique shop for old weapons, a flower boutique, and a farmer's market.")
+            kc11 = input("press\n 1 to visit the antique shop and acquire a weapon\n 2 to buy a romantic flower for your beloved\n 3 to grab some food from the market")
+            if kc11 == "1":
+                print("you bought a shiny new knife.")
+                self.inventory["weapon"] = "knife"
+                print("knife added to your inventory.")
+            elif kc11 == "2":
+                print("you bought a fragrant petunia flower for your beloved.")
+                self.inventory["extra"] = "petunia flower"
+                print("petunia flower added to your inventory.")
+            elif kc11 == "3":
+                print("you bought some fresh veggies and fish.")
+                self.inventory["food"] = "veggies"
+                self.inventory["food2"] = "fish"
+                print("veggies and fish added to your inventory.")
+            else:
+                print("Invalid choice, try again!")
+            
+        
+        elif place.name=="Belova":
+            print("you explore Belova, an enchanted place filled with magnificent scenes of life. You see lovers holding hands, children playing in gardens, and artists painting masterpieces")
+            pc11 = input("press\n1 to listen to street musicians\n2 to watch painters at work\n3 to buy art souvenirs")
+            if pc11 == "1":
+                print("you listen to an enchanting melody that inspires your next poem.")
+                self.inventory["inspiration"] = "melody"
+                print("Melody added to your inventory")
+            elif pc11 == "2":
+                print("you are watching a painter create a magnificent work of art.")
+                self.inventory["inspiration2"] = "art"
+                print("Art inspiration added to your inventory")
+            elif pc11 == "3":
+                print("you are purchasing a wonderful souvenir to remember this city.")
+                self.inventory["souvenir"] = "art piece"
+                print("Art piece added to your inventory")
             else:
                 print("try again !")
-        
-        
-        elif place=="Belova":#todo implement this
-            pass
     
-        elif place=="Mordor":#todo implement this
-            pass
+        elif place.name=="Mordor":
+            print("you explore Mordor, a dangerous place filled with evil creatures and dark landscapes. You must be vigilant at every step.")
+            sc11 = input("press\n1 to explore a mysterious cave\n2 to search for rare ingredients in the dark forest\n3 to challenge a powerful creature")
+            if sc11 == "1":
+                print("you find a cave filled with magic crystals.")
+                self.inventory["ingredient"] = "magic crystals"
+                print("Magic crystals added to your inventory")
+            elif sc11 == "2":
+                print("you find rare and powerful herbs in the forest.")
+                self.inventory["ingredient3"] = "rare herbs"
+                print("Rare herbs added to your inventory")
+            elif sc11 == "3":
+                print("you challenge a powerful creature and earn a reward.")
+                self.inventory["trophy"] = "creature trophy"
+                print("Creature trophy added to your inventory")
+            else:
+                print("try again !")
         
     def go_to(place):
         pass
@@ -107,11 +134,16 @@ class Poet(Perso):
     def __init__(self, words, name=None, health=100, inventory=None):
         super().__init__(name, health, inventory, role=self, silent=True)
         self.words=words
-        #print("you chose to be a poet")
-    
+
     def search_for_words(self, place):
-        #ToDO addd more complexity here too
-        print("you found no words")
+        print(f"Searching for words in {place.name}...")
+        if not place.words:
+            print("You found no words.")
+        else:
+            found_word = random.choice(place.words)
+            print(f"You found the word: {found_word}")
+            self.words.append(found_word)
+            place.words.remove(found_word)
 
     def write(self, words):
         print("you have these words:", self.words, "\n and you have to write the best louange for the king or else you die")
@@ -138,11 +170,13 @@ class Poet(Perso):
             print("by chance, the king loved it")
             print("you're fine, you're now called Jaskier and you sing for the king")
             print("your quest is finished and you'll live a happy romantic life")
+            return False
         elif val<50:
             print("the king decides that you'll soon be sentenced to death")
             print("you are dead")
             self.health=0
             print("you'll press mourning poems about death in the lambs")
+            return True
                 
 class Knight(Perso):
     def __init__(self, attack, strength, power, name=None, health=100, inventory=None):
@@ -187,8 +221,7 @@ class Knight(Perso):
             print("your enemy is dead")
             print("you won !")
             print("the quest you had to finish is now done")
-            #TODO need this for all char print("you finish your game with :", self.health, "health points\n", self.power, "power points\nand", self.strength, " strength points")
-    
+
         if self.health <= 0:
             print("you lost...")
             print("come back next time when you're stronger!")
@@ -200,16 +233,19 @@ class Sorcerer(Perso):
     def __init__(self, name=None, health=100, inventory=None):
         super().__init__(name, health, inventory, role=self, silent=True)
         self.power=10
-        #print("you chose to be a sorcerer")
-    
+
     def find_ingredients(self):
-        ingredient=["fire flower", "dragon tooth", "teary cloud", "ancient wooden fragment"]
-        found=random.choice(ingredient)
-        print("you found an ingredient: ",found)
-        ramasse=input("do you want to take it?: 0)yes 1)no")
-        if ramasse==0:
-            self.inventory["ingredient"]=found
-            print("you added", found, "to your inventory")
+        ingredient_options = ["fire flower", "dragon tooth", "teary cloud", "ancient wooden fragment"]
+        found = random.choice(ingredient_options)
+        print("you found an ingredient:", found)
+        ramasse = input("do you want to take it? (yes or no): ")
+        if ramasse == "yes":
+            if "ingredients" not in self.inventory:
+                self.inventory["ingredients"] = []
+            self.inventory["ingredients"].append(found)
+            print("you added", found, "to your inventory.\n")
+        else:
+            print("you decided not to take the ingredient.\n")
             
     def make_new_potion(self, inventory):
         pass
@@ -218,14 +254,15 @@ class Enemy():
 class NPC():
     pass
 class Place():
-    def __init__(self, name=None, enemy=None, treasure=None, quest=None):
+    def __init__(self, name=None, enemy=None, treasure=None, quest=None, words=None):
         self.name=name
         self.enemy=enemy
         self.treasure=treasure
         self.quest=quest
+        self.words = words
         
     def __str__(self):
-        return f"You are currently in {self.name}\nThe quest here is: {self.quest}\nTreasure: {self.treasure if self.treasure else 'No treasure'}"
+        return f"You are currently in {self.name}\nThe quest here is: {self.quest}\nTreasure: {self.treasure if self.treasure else 'No treasure'} Words: {', '.join(self.words)}\n"
         """ print("you are currently in", self.name)
         print("the quest in here is:", self.quest)
         
@@ -306,14 +343,16 @@ class Game:
     def knight_quest(self):
         print("Your quest as a knight is to explore the world, to find an enemy and to combat it.")
         print("your quest starts now")
-        place = Place("Exola", "Enemio Enim", None, "COMBAT")
+        place = Place("Exola", "Enemio Enim", None, "COMBAT", ["bravery", "sword", "shield", "rapid", "kill"])
         enemy = Knight([{"points": 5, "attack": "punch"}, {"points": 15, "attack": "sword strike"}], 20, 20, "Enemio Enim", 100, {"weapon": "Katana"})
         quest_finished = False
         while self.playing and not quest_finished:
-            print(place)
-            kc1 = input("press\n1 to explore Exola\n2 to check your inventory\n3 to find your enemy\n4 to quit the game\n")
-            if kc1 == "4":
+            kc1 = input("press\n1 to explore Exola\n2 to check your inventory\n3 to find your enemy\n4 to see the map\n5 to quit the game\n")
+            if kc1 == "5":
+                print("the courage has left the chat...")
                 self.playing = False
+            elif kc1 == "4":
+                print(place)
             elif kc1 == "2":
                 self.person.check_inventory(self.person.inventory)
             elif kc1 == "1":
@@ -327,57 +366,72 @@ class Game:
             else:
                 print("try again!")
 
-    def finished_knight_quest(self):#todo affiche perso
-        print("Congratulations, Knight! You have completed your quest.")
+    def finished_knight_quest(self):
+        print("you finish your game with :", self.health, "health points\nand ", self.strength, " strength points")
+        if self.person.health>0:
+            print(f"congratulations, Knight {self.person.name}! You have successfully completed your quest COMBAT")
+        else: 
+            print("next time, you'll do better knight", self.person.name)
         self.playing = False
         
     def poet_quest(self):
         print(f"Your quest as a poet is to explore the world, to collect words and create the most beautiful poem of the universe")
-        place = Place("Belova", None, "Love", "POEM")
+        place = Place("Belova", None, "Love", "POEM", ["love", "beauty", "passion"])
         quest_finished = False
         while self.playing and not quest_finished:
-            print(place)
-            pc1 = input("now sweet little poet, what do you want to do ? press\n1 to explore Belova\n2 to search for words\n3 to check your inventory\n4 to quit the game\n")
-            if pc1 == "4":
+            pc1 = input("now sweet little poet, what do you want to do ? press\n1 to explore Belova\n2 to search for words\n3 to write a poem\n4 to check your words inventory\n5 to see your purse inventory\n6 to see the map\n7 to travel to a new place\n8 to quit the game\n")
+            if pc1 == "8":
+                print("proceeds to flee quickly...")
                 self.playing = False
+            elif pc1 == "7":
+                pass
+            elif pc1 == "5":
+                self.person.check_inventory(self.person.inventory)
+            elif pc1 == "6":
+                print(place)
+                #todo gotta add more style
             elif pc1 == "1":
                 self.person.explore(place)
             elif pc1 == "2":
                 self.person.role.search_for_words(place)
+            elif pc1 == "3":
                 self.finished_poet_quest()
                 quest_finished = True
-                
-            elif pc1 == "3":
-                self.person.check_inventory(self.person.inventory)
+            elif pc1 == "4":
+                print(self.person.role.words)
             else:
                 print("hm i don't think i get it")
                 
     def finished_poet_quest(self):
-        print("Congratulations, Poet! You have completed your quest.")
-        pc11 = input("do you want to press a poem?\n1 to start\n2 to die because of your inexistent muse\n")
+        dead=False
+        pc11 = input("do you want to write a poem?\n1 to start\n2 to die because of your inexistent muse\n")
         if pc11 == "1":
             writing = self.person.role.write(self.person.role.words)
             print("the king found your poem and wants you to play it for him. NOW")
             print("the king listens intensively...")
             if writing is not None:
-                self.person.role.evaluate_poem(writing)
+              dead=self.person.role.evaluate_poem(writing)
         elif pc11 == "2":
             print("you died miserably...")
             print("poor little tortured poet")
+            dead=True
         else:
             print("come again.")
+        if not dead:
+            print(f"congratulations, poet {self.person.name}! you have successfully completed your quest POEM")
         self.playing = False
 
     def sorcerer_quest(self):
         print(f"Your quest as a sorcerer is to explore the world, to discover new ingredients and make the world's most dangerous potion")
-        place = Place("Mordor", None, "Infinity Stone", "MAGIC")
+        place = Place("Mordor", None, "Infinity Stone", "MAGIC", ["magic", "power", "darkness", "blackmagic"])
         quest_finished = False
         while self.playing and not quest_finished:
-            print(place)
-            sc1 = input("oh great sorcerer ! what would enchant your mind today?\n1 to explore Mordor\n2 to search for the missing ingredients for your potion\n3 to create a new secret potion\n4 to check your inventory\n5 to quit game\n")
-            if sc1 == "5":
-                print("pouf, he disappeared")
+            sc1 = input("oh great sorcerer ! what would enchant your mind today?\n1 to explore Mordor\n2 to search for the missing ingredients for your potion\n3 to create a new secret potion\n4 to check your inventory\n5 to see the map\n6 to quit game\n")
+            if sc1 == "6":
+                print("pouf, he disappeared suddenly")
                 self.playing = False
+            elif sc1 == "5":
+              print(place)
             elif sc1 == "1":
                 self.person.explore(place)
             elif sc1 == "2":
@@ -392,7 +446,7 @@ class Game:
                 print("huh?")
     
     def finished_sorcerer_quest(self):
-        print("Congratulations, Sorcerer! You have completed your quest.")
+        print(f"congratulations, Sorcerer {self.person.name}! You have successfully completed your quest MAGIC")
         self.playing = False
 
 person=None
