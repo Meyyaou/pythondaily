@@ -70,8 +70,9 @@ class Perso:
                 print("petunia flower added to your inventory.")
             elif kc11 == "3":
                 print("you bought some fresh veggies and fish.")
-                self.inventory["food"] = "veggies"
-                self.inventory["food2"] = "fish"
+                self.inventory["food"] = []
+                self.inventory["food"].append("veggies")
+                self.inventory["food"].append("fish")
                 print("veggies and fish added to your inventory.")
             else:
                 print("Invalid choice, try again!")
@@ -82,11 +83,12 @@ class Perso:
             pc11 = input("press\n1 to listen to street musicians\n2 to watch painters at work\n3 to buy art souvenirs")
             if pc11 == "1":
                 print("you listen to an enchanting melody that inspires your next poem.")
-                self.inventory["inspiration"] = "melody"
+                self.inventory["inspiration"] = []
+                self.inventory["inspiration"].append("melody")
                 print("Melody added to your inventory")
             elif pc11 == "2":
                 print("you are watching a painter create a magnificent work of art.")
-                self.inventory["inspiration2"] = "art"
+                self.inventory["inspiration"].append("art")
                 print("Art inspiration added to your inventory")
             elif pc11 == "3":
                 print("you are purchasing a wonderful souvenir to remember this city.")
@@ -257,7 +259,10 @@ class Sorcerer(Perso):
             print("you decided not to take the ingredient.\n")
             
     def make_new_potion(self, inventory):
-        pass
+        print("what kind of potion do you want to make?")
+        print("1 potion of immortality\n2 filtre d'amour\n3 poition of ")        
+        
+        
 class Enemy():
     pass
 class NPC():
@@ -271,6 +276,7 @@ class Place():
         self.words = words
         
     def __str__(self):
+        #todo gotta add more style
         return f"You are currently in {self.name}\nThe quest here is: {self.quest}\nTreasure: {self.treasure if self.treasure else 'No treasure'} Words: {', '.join(self.words)}\n"
         """ print("you are currently in", self.name)
         print("the quest in here is:", self.quest)
@@ -307,9 +313,9 @@ class Game:
     
     def start_game(self):
         print("welcome to our world...")
-        print("*" * 70)
+        print("*" * 69)
         print("here you can be anything you want, explore various places, discover new treasures, make potions and live the most vivacious adventures of all time")
-        print("*" * 70)
+        print("*" * 69)
         print("first let's see who you are: ")
 
     def main_menu(self):
@@ -339,7 +345,7 @@ class Game:
 
     def show_character(self):
         print(self.person)
-        print("hm we've got an interesting character here...\n")
+        print("\nhm we've got an interesting character here...\n")
         print("now that you know who you are, you are given a quest to complete.")
 
     def quest_menu(self):
@@ -359,17 +365,17 @@ class Game:
         enemy = Knight([{"points": 5, "attack": "punch"}, {"points": 15, "attack": "sword strike"}], 20, 20, "Enemio Enim", 100, {"weapon": "Katana"})
         quest_finished = False
         while self.playing and not quest_finished:
-            kc1 = input("press\n1 to explore Exola\n2 to check your inventory\n3 to find your enemy\n4 to see the map\n5 to quit the game\n")
+            kc1 = input("press\n1 to explore Exola\n2 to find your enemy\n3 to check your inventory\n4 to see the map\n5 to quit the game\n")
             if kc1 == "5":
                 print("the courage has left the chat...")
                 self.playing = False
             elif kc1 == "4":
                 print(place_exo)
-            elif kc1 == "2":
+            elif kc1 == "3":
                 self.person.check_inventory(self.person.inventory)
             elif kc1 == "1":
                 self.person.explore(place_exo)
-            elif kc1 == "3":
+            elif kc1 == "2":
                 print("you found your biggest enemy", enemy.name.upper(), "...")
                 print("he was waiting for you, to finally kill you...")
                 self.person.role.combat(enemy)
@@ -379,9 +385,18 @@ class Game:
                 print("try again!")
 
     def finished_knight_quest(self):
-        print("you finish your game with :", self.health, "health points\nand ", self.strength, " strength points")
-        if self.person.health>0:
-            print(f"congratulations, Knight {self.person.name}! You have successfully completed your quest COMBAT")
+        print("you finish your game with :", self.person.role.health, "health points\nand ", self.person.role.strength, " strength points")
+        if self.person.role.health>0:
+            dashes="-"*30
+            dashes=dashes.center(60)
+            print(dashes)
+            con=f"Congratulations, Knight {self.person.name} !"
+            msg= "You have successfully completed your quest COMBAT"
+            con=con.center(80)
+            msg=msg.center(80)
+            print(con)
+            print(msg)
+            print(dashes)
         else: 
             print("next time, you'll do better knight", self.person.name)
         self.playing = False
@@ -412,7 +427,6 @@ class Game:
                 self.person.check_inventory(self.person.inventory)
             elif pc1 == "6":
                 print(place_belov)
-                #todo gotta add more style
             elif pc1 == "1":
                 self.person.explore(place_belov)
             elif pc1 == "2":
@@ -441,7 +455,11 @@ class Game:
         else:
             print("come again.")
         if not dead:
+            dashes="-"*30
+            dashes=dashes.center(60)
+            print(dashes)
             print(f"congratulations, poet {self.person.name}! you have successfully completed your quest POEM")
+            print(dashes)
         self.playing = False
 
     def sorcerer_quest(self):
@@ -472,8 +490,13 @@ class Game:
                 print("huh?")
     
     def finished_sorcerer_quest(self):
+        dashes="-"*30
+        dashes=dashes.center(60)
+        print(dashes)
         print(f"congratulations, Sorcerer {self.person.name}! You have successfully completed your quest MAGIC")
+        print(dashes)
         self.playing = False
+
 
 person=None
 if person is None :
@@ -486,3 +509,5 @@ if person is None :
 game = Game(person)
 game.start_game()
 game.main_menu()
+
+
