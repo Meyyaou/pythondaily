@@ -96,24 +96,63 @@ class Perso:
                 print("Art piece added to your inventory")
             else:
                 print("try again !")
+        elif place.name=="Morder":
+            print("You explore Mordor, a dangerous place filled with evil creatures and dark landscapes. You must be vigilant at every step.")
+        sc11 = input("Press:\n1 to explore a mysterious cave\n2 to search for rare ingredients in the dark forest\n3 to challenge a powerful creature\n4 to follow the cursed river\n5 to investigate the enchanted waterfall\n6 choose this to meet a friend")
     
-        elif place.name=="Mordor":
-            print("you explore Mordor, a dangerous place filled with evil creatures and dark landscapes. You must be vigilant at every step.")
-            sc11 = input("press\n1 to explore a mysterious cave\n2 to search for rare ingredients in the dark forest\n3 to challenge a powerful creature")
-            if sc11 == "1":
-                print("you find a cave filled with magic crystals.")
-                self.inventory["ingredient"] = "magic crystals"
-                print("Magic crystals added to your inventory")
-            elif sc11 == "2":
-                print("you find rare and powerful herbs in the forest.")
-                self.inventory["ingredient3"] = "rare herbs"
-                print("Rare herbs added to your inventory")
-            elif sc11 == "3":
-                print("you challenge a powerful creature and earn a reward.")
-                self.inventory["trophy"] = "creature trophy"
-                print("Creature trophy added to your inventory")
+        if sc11 == "1":
+            print("You find a cave filled with magic crystals.")
+            self.inventory["ingredients"].append("magic crystals")
+            print("Magic crystals added to your inventory")
+    
+        elif sc11 == "2":
+            print("You find rare and powerful toadstool in the forest.")
+            self.inventory["ingredients"].append("toadstool")
+            print("Toadstool added to your inventory")
+    
+        elif sc11 == "3":
+            print("You challenge a powerful creature and earn a reward.")
+            self.inventory["trophy"].append("creature trophy")
+            print("Creature trophy added to your inventory")
+        elif sc11 == "4":
+            print("You follow the mystic path of the river and find:")
+            found_ingredient = random.choice(["phoenix feather", "dragon scale", "rose petals", "nightingale song", "moonlight essence"])
+            self.inventory["ingredients"].append(found_ingredient)
+            print(f"{found_ingredient.capitalize()} added to your inventory")
+            print("you hear someone whispering 'come back soon...'\n")
+
+        elif sc11 == "5":
+            print("you venture towards the melodious waterfall, where powerful energies and rare minerals await.")
+            sc12 = input("Press:\n1 to harvest stardust\n2 to look for a bat wing\n3\nto collect some sparkling water\n ")
+            
+            if sc12 == "1":
+                print("You try and harvset some colorful stardust.")
+                self.inventory["ingredients"].append("stardust")
+                print("Stardust added to your inventory")
+            
+            elif sc12 == "2":
+                print("You find a bat wing hanging by a tree next to the waterfall.")
+                self.inventory["ingredients"].append("bat wing")
+                print("Bat wing added to your inventory")
+            elif sc12=="3":
+                print("You collect some shiny sparkling water.")
+                self.inventory["ingredients"].append("sparkling water")
+                print("Sparkling water added to your inventory")
             else:
-                print("try again !")
+            print("try again wise ol' man.")
+        elif sc11=="6":
+            print("you hear an angelic voice say to your back, Mellon")
+            print("\n you turn around, it's your old elf friend, Legolas, he smiles at you\n")
+            print("you say, my dear Mellon, gen suilon, anann le u-gennin")
+            print("he responds, suilad, i have been waiting for you.\n i have something for you, take this,\n he hands you a purse")
+            print("you take the purse and look what's in it:\n")
+            print("you find a flask of elf tears\n and a newt's eye")
+            print("exactly what I was missing, rim hennaid")
+            self.inventory["ingredients"].append("elf tears")
+            self.inventory["ingredients"].append("eye of newt")
+       
+        else:
+            print("try again wise old man.")
 
 
     """ def take_treasure(place):
@@ -244,6 +283,7 @@ class Sorcerer(Perso):
     def __init__(self, name=None, health=100, inventory=None):
         super().__init__(name, health, inventory, role=self, silent=True)
         self.power=10
+        self.tried_potion = False 
 
     def find_ingredients(self):
         ingredient_options = ["fire flower", "dragon tooth", "teary cloud", "ancient wooden fragment"]
@@ -258,10 +298,49 @@ class Sorcerer(Perso):
         else:
             print("you decided not to take the ingredient.\n")
             
-    def make_new_potion(self, inventory):
-        print("what kind of potion do you want to make?")
-        print("1 potion of immortality\n2 filtre d'amour\n3 poition of ")        
+    def make_new_potion(self):
+        if self.tried_potion:
+            return False
         
+        potions = [
+            {"name": "immortality potion", "ingredients": ["magic crystal", "phoenix feather", "dragon scale"]},
+            {"name": "filtre d'amour", "ingredients": ["rose petals", "nightingale song", "moonlight essence"]},
+            {"name": "fairy elixir", "ingredients": ["stardust", "elf tears", "sparkling water"]},
+            {"name": "witches brew", "ingredients": ["toadstool", "eye of newt", "bat wing"]}
+        ]
+
+        print("What kind of potion do you want to make?")
+        for i, potion in enumerate(potions, 1):
+            print(f"{i}) {potion['name']}")
+
+        choice = input("Enter the number of the potion you want to make: ")
+        
+        try:
+            potion_index = int(choice) - 1
+            if 0 <= potion_index < len(potions):
+                selected_potion = potions[potion_index]
+                required_ingredients = selected_potion["ingredients"]
+                if all(ingredient in self.inventory.get("ingredients", []) for ingredient in required_ingredients):
+                    potion_name = selected_potion["name"]
+                    print(f"You successfully created a {potion_name}.")
+                    for ingredient in required_ingredients:
+                        self.inventory["ingredients"].remove(ingredient)
+                    
+                    if "potions" not in self.inventory:
+                        self.inventory["potions"] = []
+                    self.inventory["potions"].append(potion_name)
+                    self.tried_potion = True  # Set the flag to True after successfully making a potion
+                    return True
+                else:
+                    print("You don't have all the required ingredients.")
+                    self.tried_potion = True  # Set the flag to True even if the attempt failed
+                    return False
+            else:
+                print("Invalid choice.")
+                return False
+        except ValueError:
+            print("Invalid input. Please enter a number.")
+            return False
         
 class Enemy():
     pass
@@ -481,7 +560,7 @@ class Game:
             elif sc1 == "2":
                 self.person.role.find_ingredients()
             elif sc1 == "3":
-                self.person.role.make_new_potion(self.person.inventory)
+                self.person.role.make_new_potion()
                 self.finished_sorcerer_quest()
                 quest_finished = True
             elif sc1 == "4":
@@ -490,11 +569,14 @@ class Game:
                 print("huh?")
     
     def finished_sorcerer_quest(self):
-        dashes="-"*30
-        dashes=dashes.center(60)
-        print(dashes)
-        print(f"congratulations, Sorcerer {self.person.name}! You have successfully completed your quest MAGIC")
-        print(dashes)
+        if self.person.role.make_new_potion():
+            dashes="-"*30
+            dashes=dashes.center(60)
+            print(dashes)
+            print(f"congratulations, Sorcerer {self.person.name}! You have successfully completed your quest MAGIC")
+            print(dashes)
+        else:
+            print("next time, try again wise man!")
         self.playing = False
 
 
