@@ -104,7 +104,7 @@ class Perso:
                 print("Try again !")
                 
                 
-        elif place.name=="Morder":
+        elif place.name=="Mordor":
             print("You explore Mordor, a dangerous place filled with evil creatures and dark landscapes. You must be vigilant at every step.")
             sc11 = input("press:\n1 to explore a mysterious cave\n2 to search for rare ingredients in the dark forest\n3 to challenge a powerful creature\n4 to follow the cursed river\n5 to investigate the enchanted waterfall\n6 choose this to meet a friend\n")
             if "ingredients" not in self.inventory:
