@@ -1,6 +1,6 @@
 # press Python 3 code in this online editor and run it.
 import random
-
+#todo biggest is to stylize more and add ascii stuff
 class Perso:
     
     def __init__(self, name=None, health=100, inventory=None, role=None, silent=False):
