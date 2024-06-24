@@ -139,7 +139,7 @@ class Perso:
                 self.inventory["ingredients"].append("sparkling water")
                 print("Sparkling water added to your inventory")
             else:
-            print("try again wise ol' man.")
+                print("try again wise ol' man.")
         elif sc11=="6":
             print("you hear an angelic voice say to your back, Mellon")
             print("\n you turn around, it's your old elf friend, Legolas, he smiles at you\n")
