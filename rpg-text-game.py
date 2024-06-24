@@ -11,13 +11,7 @@ class Perso:
         self.name = name
         self.health = health
         if inventory is None:
-            inventory = {
-                "ingredients":[],
-                "trophy": [],
-                "extra":[],
-                "food":[],
-                "weapon":[]
-            }
+            inventory = {}
         self.inventory = inventory
         if role is None:
             role = self.create_perso()
@@ -56,7 +50,7 @@ class Perso:
             if role.lower()=="poet":
                 return Poet(["sun", "life", "little", "good"])
             elif role.lower()=="knight":
-                return Knight([{"points": 10, "attack": "torture"}, {"points": 20, "attack": "knife drop"}], 10, 10)
+                return Knight([{"points": 10, "attack": "daggers throw"}, {"points": 20, "attack": "knife thrust"},{"points":5, "attack":"counterattack"}, {"points": 15, "attack": "sword slash"}], 10, 10)
             elif role.lower()=="sorcerer":
                 return Sorcerer()
             else:
@@ -89,7 +83,10 @@ class Perso:
             pc11 = input("press\n1 to listen to street musicians\n2 to watch painters at work\n3 to buy art souvenirs")
             if pc11 == "1":
                 print("you listen to an enchanting melody that inspires your next poem.")
-                self.inventory["inspiration"] = []
+                if "inspiration" not in self.inventory:
+                    self.inventory["inspiration"] = []
+                if "souvenir" not in self.inventory:
+                    self.inventory["souvenir"]=[]
                 self.inventory["inspiration"].append("melody")
                 print("Melody added to your inventory")
             elif pc11 == "2":
@@ -106,68 +103,68 @@ class Perso:
                 
         elif place.name=="Morder":
             print("You explore Mordor, a dangerous place filled with evil creatures and dark landscapes. You must be vigilant at every step.")
-        sc11 = input("Press:\n1 to explore a mysterious cave\n2 to search for rare ingredients in the dark forest\n3 to challenge a powerful creature\n4 to follow the cursed river\n5 to investigate the enchanted waterfall\n6 choose this to meet a friend\n")
-        if "ingredients" not in self.inventory:
-            self.inventory["ingredients"] = []
-        if "trophy" not in self.inventory:
-            self.inventory["trophy"]=[]
-        if sc11 == "1":
-            print("You find a cave filled with magic crystals.")
-            self.inventory["ingredients"].append("magic crystals")
-            print("Magic crystals added to your inventory")
-    
-        elif sc11 == "2":
-            print("You find rare and powerful toadstool in the forest.")
-            self.inventory["ingredients"].append("toadstool")
-            print("Toadstool added to your inventory")
-    
-        elif sc11 == "3":
-            print("You challenge a powerful creature and earn a reward.")
-            self.inventory["trophy"].append("creature trophy")
-            print("Creature trophy added to your inventory")
-        elif sc11 == "4":
-            print("You follow the mystic path of the river and find:")
-            found_ingredient = random.choice(["phoenix feather", "dragon scale", "nightingale song", "moonlight essence"])
-            self.inventory["ingredients"].append(found_ingredient)
-            print(f"{found_ingredient.capitalize()} added to your inventory")
-            print("you hear someone whispering 'come back soon...'\n")
-
-        elif sc11 == "5":
-            print("you venture towards the melodious waterfall, where powerful energies and rare minerals await.")
-            sc12 = input("Press:\n1 to harvest stardust\n2 to look for a bat wing\n3 to collect some sparkling water\n ")
-            
-            if sc12 == "1":
-                print("You try and harvset some colorful stardust.")
-                self.inventory["ingredients"].append("stardust")
-                print("Stardust added to your inventory")
-            
-            elif sc12 == "2":
-                print("You find a bat wing hanging by a tree next to the waterfall.")
-                self.inventory["ingredients"].append("bat wing")
-                print("Bat wing added to your inventory")
-            elif sc12=="3":
-                print("You collect some shiny sparkling water.")
-                self.inventory["ingredients"].append("sparkling water")
-                print("Sparkling water added to your inventory")
-            else:
-                print("try again wise ol' man.")
-        elif sc11=="6":
+            sc11 = input("Press:\n1 to explore a mysterious cave\n2 to search for rare ingredients in the dark forest\n3 to challenge a powerful creature\n4 to follow the cursed river\n5 to investigate the enchanted waterfall\n6 choose this to meet a friend\n")
             if "ingredients" not in self.inventory:
                 self.inventory["ingredients"] = []
-            print("you hear an angelic voice say to your back, Mellon")
-            print("\n you turn around, it's your old elf friend, Legolas, he smiles at you\n")
-            print("you say, my dear Mellon, gen suilon, anann le u-gennin\n")
-            print("he responds, suilad, i have been waiting for you.\n i have something for you, take this, he hands you a purse")
-            print("you take the purse and look what's in it:\n")
-            print("you find a flask of elf tears, rose petals and a newt's eye")
-            print("exactly what I was missing, rim hennaid, you told him")
-            print("and go back to exploring and discovering more secrets of the world\n")
-            self.inventory["ingredients"].append("elf tears")
-            self.inventory["ingredients"].append("eye of newt")
-            self.inventory["ingredients"].append("rose petals")
-       
-        else:
-            print("try again wise old man.")
+            if "trophy" not in self.inventory:
+                self.inventory["trophy"]=[]
+            if sc11 == "1":
+                print("You find a cave filled with magic crystals.")
+                self.inventory["ingredients"].append("magic crystals")
+                print("Magic crystals added to your inventory")
+        
+            elif sc11 == "2":
+                print("You find rare and powerful toadstool in the forest.")
+                self.inventory["ingredients"].append("toadstool")
+                print("Toadstool added to your inventory")
+        
+            elif sc11 == "3":
+                print("You challenge a powerful creature and earn a reward.")
+                self.inventory["trophy"].append("creature trophy")
+                print("Creature trophy added to your inventory")
+            elif sc11 == "4":
+                print("You follow the mystic path of the river and find:")
+                found_ingredient = random.choice(["phoenix feather", "dragon scale", "nightingale song", "moonlight essence"])
+                self.inventory["ingredients"].append(found_ingredient)
+                print(f"{found_ingredient.capitalize()} added to your inventory")
+                print("you hear someone whispering 'come back soon...'\n")
+    
+            elif sc11 == "5":
+                print("you venture towards the melodious waterfall, where powerful energies and rare minerals await.")
+                sc12 = input("Press:\n1 to harvest stardust\n2 to look for a bat wing\n3 to collect some sparkling water\n ")
+                
+                if sc12 == "1":
+                    print("You try and harvset some colorful stardust.")
+                    self.inventory["ingredients"].append("stardust")
+                    print("Stardust added to your inventory")
+                
+                elif sc12 == "2":
+                    print("You find a bat wing hanging by a tree next to the waterfall.")
+                    self.inventory["ingredients"].append("bat wing")
+                    print("Bat wing added to your inventory")
+                elif sc12=="3":
+                    print("You collect some shiny sparkling water.")
+                    self.inventory["ingredients"].append("sparkling water")
+                    print("Sparkling water added to your inventory")
+                else:
+                    print("try again wise ol' man.")
+            elif sc11=="6":
+                if "ingredients" not in self.inventory:
+                    self.inventory["ingredients"] = []
+                print("you hear an angelic voice say to your back, Mellon")
+                print("\n you turn around, it's your old elf friend, Legolas, he smiles at you\n")
+                print("you say, my dear Mellon, gen suilon, anann le u-gennin\n")
+                print("he responds, suilad, i have been waiting for you.\n i have something for you, take this, he hands you a purse")
+                print("you take the purse and look what's in it:\n")
+                print("you find a flask of elf tears, rose petals and a newt's eye")
+                print("exactly what I was missing, rim hennaid, you told him")
+                print("and go back to exploring and discovering more secrets of the world\n")
+                self.inventory["ingredients"].append("elf tears")
+                self.inventory["ingredients"].append("eye of newt")
+                self.inventory["ingredients"].append("rose petals")
+           
+            else:
+                print("try again wise old man.")
 
 
     """ def take_treasure(place):
@@ -258,7 +255,7 @@ class Knight(Perso):
             attacker = max(self.strength, enemy.strength)
             if attacker == self.strength:
                 print("you can attack the enemy with", self.power, "power")
-                print("choose the attack to make him lose: 1) for", self.attack[0]["attack"], "\n2) for", self.attack[1]["attack"])
+                print("choose the attack to make him lose: 1) for", self.attack[0]["attack"], "\n2) for", self.attack[1]["attack"], "\n3) for", self.attack[2]["attack"],"\n4) for", self.attack[3]["attack"])
                 attack_type = input("you chose: ")
                 if attack_type == "1":
                     damage = self.attack[0]["points"]
@@ -266,6 +263,14 @@ class Knight(Perso):
                 elif attack_type == "2":
                     damage = self.attack[1]["points"]
                     enemy.health -= damage
+                elif attack_type =="3":
+                    damage = self.attack[2]["points"]
+                    enemy.health -= damage
+                elif attack_type=="4":
+                    damage = self.attack[3]["points"]
+                    enemy.health -= damage
+                else:
+                    print("that attack is an illusion")
                 print("you made him lose:", damage)
                 
             else:
@@ -334,7 +339,7 @@ class Sorcerer(Perso):
         else:
             print("you decided not to take the ingredient.\n")
             """
-    def make_new_potion(self):
+    def make_new_potion(self, inventory):
         if self.tried_potion:
             return False
         
@@ -356,17 +361,29 @@ class Sorcerer(Perso):
             if 0 <= potion_index < len(potions):
                 selected_potion = potions[potion_index]
                 required_ingredients = selected_potion["ingredients"]
-                inventory_ingredients = self.inventory.get("ingredients", [])
-                if all(inventory_ingredients.count(ingredient) >= required_ingredients.count(ingredient) for ingredient in required_ingredients):
+                ingredient_count = {}
+    
+    
+                for ingredient in inventory.get("ingredients", []):
+                    if ingredient in ingredient_count:
+                        ingredient_count[ingredient] += 1
+                    else:
+                        ingredient_count[ingredient] = 1
+    
+            
+                can_create = True
+                for ingredient in required_ingredients:
+                    if ingredient_count.get(ingredient, 0) < required_ingredients.count(ingredient):
+                        can_create = False
+                        break
+    
+                if can_create:
                     potion_name = selected_potion["name"]
                     print(f"You successfully created a {potion_name}.")
                     
-                    for ingredient in required_ingredients:
-                        inventory_ingredients.remove(ingredient)
-                    
-                    if "potions" not in self.inventory:
-                        self.inventory["potions"] = []
-                    self.inventory["potions"].append(potion_name)
+                    if "potions" not in inventory:
+                        inventory["potions"] = []
+                    inventory["potions"].append(potion_name)
                     self.tried_potion = True
                     return True
                 else:
@@ -394,7 +411,7 @@ class Place():
         
     def __str__(self):
         #todo gotta add more style
-        return f"You are currently in {self.name}\nThe quest here is: {self.quest}\nTreasure: {self.treasure if self.treasure else 'No treasure'} Words: {', '.join(self.words)}\n"
+        return f"You are currently in {self.name}\nThe quest here is: {self.quest}\nTreasure: {self.treasure if self.treasure else 'No treasure'}\nWords: {', '.join(self.words)}\n"
         """ print("you are currently in", self.name)
         print("the quest in here is:", self.quest)
         
@@ -598,7 +615,7 @@ class Game:
             elif sc1 == "1":
                 self.person.role.find_ingredients()
             elif sc1 == "3":
-                self.person.role.make_new_potion()
+                self.person.role.make_new_potion(self.person.inventory)
                 self.finished_sorcerer_quest()
                 quest_finished = True
             elif sc1 == "4":
@@ -607,7 +624,7 @@ class Game:
                 print("huh?")
     
     def finished_sorcerer_quest(self):
-        if self.person.role.make_new_potion():
+        if self.person.role.make_new_potion(self.person.inventory):
             dashes="-"*30
             dashes=dashes.center(60)
             print(dashes)
