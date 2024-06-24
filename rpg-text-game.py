@@ -5,9 +5,10 @@ class Perso:
     
     def __init__(self, name=None, health=100, inventory=None, role=None, silent=False):
         if not silent:
-            print("hello new gamer!")
+            print("Hello new gamer!")
+            print("\nPlease enter your information to start building your character")
             if name is None:
-                name = input("choose your name: ")
+                name = input("Choose your name: ")
         self.name = name
         self.health = health
         if inventory is None:
@@ -17,7 +18,7 @@ class Perso:
             role = self.create_perso()
         self.role = role
         if not silent:
-            print("are you ready to play? let's start...")
+            print("Are you ready to play? let's start...\n")
 
      #might add an icon ascii with p/k/s for role at right
     def __str__(self):
@@ -46,7 +47,7 @@ class Perso:
     
     def create_perso(self):
         while True:
-            role= input("choose the role you want to play during this adventure: poet, sorcerer or knight? ")
+            role= input("Choose the role you want to play with during this adventure: poet, sorcerer or knight? ")
             if role.lower()=="poet":
                 return Poet(["sun", "life", "little", "good"])
             elif role.lower()=="knight":
@@ -54,26 +55,27 @@ class Perso:
             elif role.lower()=="sorcerer":
                 return Sorcerer()
             else:
-                print("there is no place for a", role, "in our world. come back in another garment", self.name, "\n")
+                print("There is no place for a", role, "in our world. come back in another garment", self.name, "please\n")
             
     def explore(self, place):
         if place.name=="Exola":
+            print("")
             print("You are exploring Exola, a vibrant kingdom with various interesting spots: an antique shop for old weapons, a flower boutique, and a farmer's market.")
             kc11 = input("press\n 1 to visit the antique shop and acquire a weapon\n 2 to buy a romantic flower for your beloved\n 3 to grab some food from the market")
             if kc11 == "1":
-                print("you bought a shiny new knife.")
+                print("You bought a shiny new knife.")
                 self.inventory["weapon"] = "knife"
-                print("knife added to your inventory.")
+                print("Knife added to your inventory.")
             elif kc11 == "2":
-                print("you bought a fragrant petunia flower for your beloved.")
+                print("You bought a fragrant petunia flower for your beloved.")
                 self.inventory["extra"] = "petunia flower"
-                print("petunia flower added to your inventory.")
+                print("Petunia flower added to your inventory.")
             elif kc11 == "3":
-                print("you bought some fresh veggies and fish.")
+                print("You bought some fresh veggies and fish.")
                 self.inventory["food"] = []
                 self.inventory["food"].append("veggies")
                 self.inventory["food"].append("fish")
-                print("veggies and fish added to your inventory.")
+                print("Veggies and fish added to your inventory.")
             else:
                 print("Invalid choice, try again!")
             
@@ -646,5 +648,4 @@ if person is None :
 game = Game(person)
 game.start_game()
 game.main_menu()
-
 
