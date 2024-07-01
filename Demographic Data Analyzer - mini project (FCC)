@@ -1,6 +1,8 @@
 import pandas as pd
 
 
+
+
 def calculate_demographic_data(print_data=False):
     # Read data from file
     df = None
@@ -42,22 +44,34 @@ def calculate_demographic_data(print_data=False):
     salary_mask= df['salary'] == '>50K'
     higher_education_rich=(df[mask & salary_mask].shape[0] / df[mask].shape[0])*100
     lower_education_rich=(df[~mask & salary_mask].shape[0] / df[mask].shape[0])*100
-    print("higher rich: ", higher_education_rich, "\nlower rich: ", lower_education_rich)
+    #print("higher rich: ", higher_education_rich, "\nlower rich: ", lower_education_rich)
 
     # What is the minimum number of hours a person works per week (hours-per-week feature)?
     min_work_hours = None
+    min_work_hours= df['hours-per-week'].min()
+    #print("minnnnn ", min_work_hours)
 
     # What percentage of the people who work the minimum number of hours per week have a salary of >50K?
     num_min_workers = None
+    num_min_workers=(df[salary_mask & min_work_hours].shape[0] / df.shape[0])*100
+    #print("pourcentaaage min hour ", num_min_workers)
 
     rich_percentage = None
+    rich_percentage=(df[salary_mask].shape[0]/df.shape[0])*100
+    #print(rich_percentage)
 
     # What country has the highest percentage of people that earn >50K?
     highest_earning_country = None
     highest_earning_country_percentage = None
+    highest_salary=df[df['salary']==df['salary'].max()]
+    highest_earning_country=df[highest_salary, 'country']
+
+    highest_earning_country_percentage = (df[highest_earning_country].shape[0] / df.shape[0])*100
+    print('hhighhhhhh country', highest_earning_country_percentage)
 
     # Identify the most popular occupation for those who earn >50K in India.
     top_IN_occupation = None
+    
 
     # DO NOT MODIFY BELOW THIS LINE
 
