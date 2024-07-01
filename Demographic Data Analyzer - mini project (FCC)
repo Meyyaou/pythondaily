@@ -2,7 +2,6 @@ import pandas as pd
 
 
 
-
 def calculate_demographic_data(print_data=False):
     # Read data from file
     df = None
@@ -67,15 +66,18 @@ def calculate_demographic_data(print_data=False):
     highest_earning_country=df[highest_salary, 'country']
 
     highest_earning_country_percentage = (df[highest_earning_country].shape[0] / df.shape[0])*100
-    print('hhighhhhhh country', highest_earning_country_percentage)
+    #print('hhighhhhhh country', highest_earning_country_percentage)
 
     # Identify the most popular occupation for those who earn >50K in India.
     top_IN_occupation = None
-    
+    ind_mask=df['native-country']=='India'
+    top_occup=df['occupation'].value_counts().max()
+    top_IN_occupation=df[ind_mask & salary_mask & top_occup]
+    #print("TOP: ********", top_IN_occupation)
 
     # DO NOT MODIFY BELOW THIS LINE
 
-    '''if print_data:
+    if print_data:
         print("Number of each race:\n", race_count) 
         print("Average age of men:", average_age_men)
         print(f"Percentage with Bachelors degrees: {percentage_bachelors}%")
@@ -86,7 +88,7 @@ def calculate_demographic_data(print_data=False):
         print("Country with highest percentage of rich:", highest_earning_country)
         print(f"Highest percentage of rich people in country: {highest_earning_country_percentage}%")
         print("Top occupations in India:", top_IN_occupation)
-'''
+
     return {
         'race_count': race_count,
         'average_age_men': average_age_men,
