@@ -1,1 +1,35 @@
 
+import numpy as np
+
+def calculate(list):
+    n=np.array(list)
+    n=n.reshape(3,3)
+    #print(n)
+    if n.size<9:
+        raise ValueError("List must contain nine numbers.")
+    else:
+        keys=['mean', 'variance', 'standard deviation', 'max', 'min', 'sum']
+        values=[]
+        rowlist=[]
+        for i in range(n.shape[1]):
+            rowlist.append([n[:, i].mean(),np.var(n[:,i], axis=None),n[:,i].std(), n[:,i].max(), n[:,i].min(), n[:,i].sum()])
+        nrow=np.array(rowlist)
+        nrow=nrow.transpose()
+        #print("after trasnspose: ", nrow)
+        collist=[]
+        for i in range(n.shape[0]):
+            collist.append([n[i, :].mean(),np.var(n[i, :], axis=None),n[i,:].std(), n[i,:].max(), n[i,:].min(), n[i,:].sum()])
+        ncol=np.array(collist)
+        ncol=ncol.transpose()
+        items=[n.mean(),np.var(n, axis=None),n.std(), n.max(), n.min(), n.sum()]
+        nitems=np.array(items)
+        nitems=nitems.transpose()
+        print(nitems)
+        #values=rowlist+collist+items
+        #print(values)
+        #then we stack horizontally to values for each: rows,cols, items
+        calculations = dict(zip(keys, values))
+        #print(calculations)
+    return True
+l=[0,1,2,3,4,5,6,7,8]
+calculate(l)
