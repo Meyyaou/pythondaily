@@ -9,33 +9,32 @@ def calculate(list):
         keys=['mean', 'variance', 'standard deviation', 'max', 'min', 'sum']
         values=[]
         rowlist=[]
+        calculations={}
         for i in range(n.shape[1]):
             rowlist.append([n[:, i].mean(),np.var(n[:,i], axis=None),n[:,i].std(), n[:,i].max(), n[:,i].min(), n[:,i].sum()])
         nrow=np.array(rowlist)
         nrow=nrow.transpose()
         rowlist=nrow.tolist()
-        #print(rowlist)
-        #print("after trasnspose: ", nrow)
         collist=[]
         for i in range(n.shape[0]):
             collist.append([n[i, :].mean(),np.var(n[i, :], axis=None),n[i,:].std(), n[i,:].max(), n[i,:].min(), n[i,:].sum()])
         ncol=np.array(collist)
         ncol=ncol.transpose()
         collist=ncol.tolist()
-        #print(collist)
         items=[n.mean(),np.var(n, axis=None),n.std(), n.max(), n.min(), n.sum()]
         nitems=np.array(items)
         nitems=nitems.reshape(-1,1)
         items=nitems.tolist()
-        #print(items)
-        for i in range (n.shape[0]):
-            values.append(rowlist[i])
-            values.append(collist[i])
-            values.append(items[i])
-        print(values)
-        #then we stack horizontally to values for each: rows,cols, items
-        calculations = dict(zip(keys, values))
+
+        calculations['mean']=[rowlist[0]]+[collist[0]]+items[0]
+        calculations['variance']=[rowlist[1]]+[collist[1]]+items[1]
+        calculations['standard deviation']=[rowlist[2]]+[collist[2]]+items[2]
+        calculations['max']=[rowlist[3]]+[collist[3]]+items[3]
+        calculations['min']=[rowlist[4]]+[collist[4]]+items[4]
+        calculations['sum']=[rowlist[5]]+[collist[5]]+items[5]
+        #calculations = dict(zip(keys, values)) wish this worked?
         print(calculations)
+        
     return calculations
 l=[0,1,2,3,4,5,6,7,8]
 calculate(l)
