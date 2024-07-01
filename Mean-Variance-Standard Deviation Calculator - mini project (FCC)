@@ -1,11 +1,11 @@
 import numpy as np
 
 def calculate(list):
-    n=np.array(list)
-    n=n.reshape(3,3)
-    if n.size<9:
+    if len(list)!=9:
         raise ValueError("List must contain nine numbers.")
     else:
+        n=np.array(list)
+        n=n.reshape(3,3)
         keys=['mean', 'variance', 'standard deviation', 'max', 'min', 'sum']
         values=[]
         rowlist=[]
@@ -33,8 +33,6 @@ def calculate(list):
         calculations['min']=[rowlist[4]]+[collist[4]]+items[4]
         calculations['sum']=[rowlist[5]]+[collist[5]]+items[5]
         #calculations = dict(zip(keys, values)) wish this worked?
-        print(calculations)
+       
         
     return calculations
-l=[0,1,2,3,4,5,6,7,8]
-calculate(l)
